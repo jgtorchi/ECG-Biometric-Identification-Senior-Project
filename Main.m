@@ -1,3 +1,6 @@
+clc
+clear
+close all
 [sig, Fs, tm] = rdsamp('ecg-id-database-1.0.0/Person_01/rec_1', 2);
 %find R peaks with pan-tompkins
 [qrs_amp_raw,qrs_i_raw,delay]=pan_tompkin(sig,Fs,0);
@@ -27,3 +30,5 @@ plot(tm(Sidxs),sig(Sidxs),'o','MarkerSize',10);
 plot(tm(Tidxs),sig(Tidxs),'o','MarkerSize',10);
 legend('raw s','P-peaks','Q-peaks','R-peaks','S-peaks','T-peaks');
 hold off;
+%%
+features = ExtractFeatures(sig,Fs,Pidxs,Qidxs,Ridxs,Sidxs,Tidxs);

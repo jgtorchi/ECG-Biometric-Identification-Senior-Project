@@ -1,13 +1,14 @@
 function AmpFeatures = ExtractAmplitudeFeatures(Ecg,Pidxs,Qidxs,Ridxs,Sidxs,Tidxs)
-    AmpFeatures = zeros(len(Pidxs),12);
+    AmpFeatures = zeros(length(Pidxs),12);
     %amplitude features with R peak of each beat as the origin
-    AmpFeatures(:,1)  = Ecg(Pidxs); % Py (P amplitude)
-    AmpFeatures(:,2)  = Ecg(Qidxs); % Qy (Q amplitude)
-    AmpFeatures(:,3)  = Ecg(Sidxs); % Sy (S amplitude)
-    AmpFeatures(:,4)  = Ecg(Tidxs); % Ty (T amplitude)
-    AmpFeatures(:,5)  = (AmpFeatures(:,1) - AmpFeatures(:,2)); % PQ (Py-Qy)
-    AmpFeatures(:,6)  = (Ecg(Ridxs) - AmpFeatures(:,2)); % QR (Ry-Qy)
-    AmpFeatures(:,7)  = (Ecg(Ridxs) - AmpFeatures(:,3)); % RS (Ry-Sy)
+    AmpFeatures(:,1)  = Ecg(Pidxs) - Ecg(Ridxs); % Py (P amplitude)
+    AmpFeatures(:,2)  = Ecg(Qidxs) - Ecg(Ridxs); % Qy (Q amplitude)
+    AmpFeatures(:,3)  = Ecg(Sidxs) - Ecg(Ridxs); % Sy (S amplitude)
+    AmpFeatures(:,4)  = Ecg(Tidxs) - Ecg(Ridxs); % Ty (T amplitude)
+    AmpFeatures(:,5)  = (AmpFeatures(:,2) - AmpFeatures(:,1)); % PQ (Qy-Py)
+    %R peak position is zero in translated cordinate system
+    AmpFeatures(:,6)  = (0 - AmpFeatures(:,2)); % QR (Ry-Qy)
+    AmpFeatures(:,7)  = (0 - AmpFeatures(:,3)); % RS (Ry-Sy)
     AmpFeatures(:,8)  = (AmpFeatures(:,4) - AmpFeatures(:,3)); % ST (Ty-Sy)
     AmpFeatures(:,9)  = (AmpFeatures(:,2) - AmpFeatures(:,3)); % QS (Qy-Sy)
     AmpFeatures(:,10) = (AmpFeatures(:,1) - AmpFeatures(:,3)); % PS (Py-Sy)
