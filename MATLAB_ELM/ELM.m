@@ -14,5 +14,10 @@ view(net)
 %perf = perform(net,y,TrainingLabels)
 predictedLabels = net(TestingFeatures);
 PredictedIndices = Labels2Indices(predictedLabels);
-percentCorrect = sum(PredictedIndices == TestingLabels)/length(PredictedIndices) * 100;
-confusionMatrix = confusionmat(TestingLabels,PredictedIndices);
+percentCorrect = sum(PredictedIndices == TestingLabels) ...
+    /length(PredictedIndices) * 100;
+plotconfusion(categorical(TestingLabels),categorical(PredictedIndices));
+%% create confusion matrix with training features
+y = net(TrainingFeatures);
+plotconfusion(categorical(Labels2Indices(TrainingLabels)), ...
+    categorical(Labels2Indices(y)));
